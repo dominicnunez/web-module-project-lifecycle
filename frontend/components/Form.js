@@ -7,8 +7,7 @@ export default class Form extends React.Component {
       <form>
         <input type="text" placeholder="Enter a new todo" />
         <button type="submit">Add Todo</button>
-        <br></br>
-        <button type="button">Clear Completed</button>
+        {/* <button type="button">Clear Completed</button> */}
       </form>
     )
   }
