@@ -4,11 +4,6 @@ import TodoList from "./TodoList";
 import Form from "./Form";
 
 const URL = "http://localhost:9000/api/todos";
-
-// fetchTodos axios call
-const fetchTodos = () => {
-  return axios.get(URL).catch((err) => console.log(err));
-};
 export default class App extends React.Component {
   constructor() {
     super();
@@ -19,31 +14,46 @@ export default class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    fetchTodos(URL)
-      .then((res) => this.setState({ todos: res.data.data }))
-      .catch((err) => this.setState({ error: err.message }));
-  }
-  
-  addTask = async (e, task) => {
-    e.preventDefault();
-    const newTask = { name: task };
-    try {
-      const res = await axios.post(URL, newTask);
-      this.setState({
-        todos: [...this.state.todos, res.data.data],
+  fetchTodos = () => {
+    return axios
+      .get(URL)
+      .then((res) => {
+        this.setState({ todos: res.data.data, error: null });
+      })
+      .catch((err) => {
+        const errorMessage =
+          err.response?.data?.message || "An error occurred fetching todos.";
+        this.setState({ error: errorMessage });
       });
-    } catch (err) {
-      this.setState({ error: err.message });
-    }
+  };
+
+  componentDidMount() {
+    this.fetchTodos();
+  }
+
+  addTask = (e, task) => {
+    e.preventDefault();
+    axios
+      .post(URL, { name: task })
+      .then((res) => {
+        this.setState({
+          todos: [...this.state.todos, res.data.data],
+          error: null,
+        });
+      })
+      .catch((err) => {
+        this.setState({ error: err.response?.data?.message });
+      });
   };
 
   toggleCompleted = async (id) => {
     try {
       await axios.patch(`${URL}/${id}`);
       this.syncTaskStatus(id);
+      this.setState({ error: null });
     } catch (err) {
-      this.setState({ error: err.message });
+      const errorMessage = err.response?.data?.message || "An error occurred marking task as complete.";
+      this.setState({ error: errorMessage });
     }
   };
 
@@ -64,6 +74,10 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
+        <div id="error">
+          {this.state.error && <div id="error">Error: {this.state.error}</div>}
+        </div>
+
         <div id="todos">
           <TodoList
             todos={this.state.todos}
@@ -72,17 +86,12 @@ export default class App extends React.Component {
           />
         </div>
 
-        <form id="todoForm">
-          <Form addTask={this.addTask} />
-        </form>
-        
-        <button onClick={this.toggleCompletedVisibility}>
-          {this.state.hideCompleted ? "Show" : "Hide"}{" Completed"}
-        </button>
+        <Form addTask={this.addTask} />
 
-        <div id="error">
-          {this.state.error && <div id="error">Error: {this.state.error}</div>}
-        </div>
+        <button onClick={this.toggleCompletedVisibility}>
+          {this.state.hideCompleted ? "Show" : "Hide"}
+          {" Completed"}
+        </button>
       </div>
     );
   }

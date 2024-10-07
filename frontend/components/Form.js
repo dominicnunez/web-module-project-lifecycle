@@ -11,7 +11,8 @@ export default class Form extends React.Component {
     handleChanges = e => {
       // update state with each keystroke
       e.preventDefault()
-      this.setState({...this.state, task: e.target.value})
+      const value = e.target.value
+      this.setState({...this.state, task: value})
     };
   
     // class property to submit form
@@ -23,10 +24,10 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <>
-        <input onSubmit={this.submitForm} type="text" name="task" value={this.state.task} onChange={this.handleChanges} placeholder='Type todo'/>
+      <form className="todoForm" onSubmit={this.submitForm}>
+        <input type="text" name="task" value={this.state.task} onChange={this.handleChanges} placeholder='Type todo'/>
         <button>Submit</button>
-      </>
+      </form>
     )
   }
 }
