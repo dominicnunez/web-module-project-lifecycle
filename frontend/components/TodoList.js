@@ -10,16 +10,16 @@ export default class TodoList extends React.Component {
       : todos;
 
     return(
-      <div className='todo-list'>
-        <h2>Todo List</h2>
-        {visibleTodos.map(task => (
+      <>
+        <h2>Todos:</h2>
+        {visibleTodos.map(todo => (
           <Todo 
-            key={task.id} 
-            task={task} 
+            key={todo.id} 
+            todo={todo} 
             toggleCompleted={toggleCompleted}
           />
         ))}
-      </div>
+      </>
     )
   }
 }

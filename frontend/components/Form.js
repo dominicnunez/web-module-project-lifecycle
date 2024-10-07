@@ -23,10 +23,10 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.submitForm}>New Task<br></br>
-        <input type="text" name="task" value={this.state.task} onChange={this.handleChanges} placeholder='enter a task'/>
-        <button>Add</button>
-      </form>
+      <>
+        <input onSubmit={this.submitForm} type="text" name="task" value={this.state.task} onChange={this.handleChanges} placeholder='Type todo'/>
+        <button>Submit</button>
+      </>
     )
   }
 }

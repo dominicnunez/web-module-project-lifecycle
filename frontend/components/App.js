@@ -71,11 +71,13 @@ export default class App extends React.Component {
             hideCompleted={this.state.hideCompleted}
           />
         </div>
-        <div id="form">
+
+        <form id="todoForm">
           <Form addTask={this.addTask} />
-        </div>
-        <button className="toggle-btn" onClick={this.toggleCompletedVisibility}>
-          {this.state.hideCompleted ? "Show Completed" : "Hide Completed"}
+        </form>
+        
+        <button onClick={this.toggleCompletedVisibility}>
+          {this.state.hideCompleted ? "Show" : "Hide"}{" Completed"}
         </button>
 
         <div id="error">
