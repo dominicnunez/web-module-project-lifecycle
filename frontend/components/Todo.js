@@ -5,7 +5,7 @@ export default class Todo extends React.Component {
     return (
       <div className={`task${this.props.task.completed ? ' completed' : ''}`} 
     onClick={() => this.props.toggleCompleted(this.props.task.id)}>
-      <p>{this.props.task.name}</p>
+      {this.props.task.completed ? this.props.task.name + " ✔️": this.props.task.name}
     </div>
     )
   }
