@@ -83,3 +83,7 @@ ul, form {
 .todo:hover {
   cursor: pointer;
 }
+
+.task.completed {
+  text-decoration: line-through;
+}

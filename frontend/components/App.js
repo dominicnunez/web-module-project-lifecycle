@@ -21,17 +21,17 @@ export default class App extends React.Component {
 
   componentDidMount() {
     fetchTodos(URL)
-      .then((res) => this.setState({ todos: res.data }))
+      .then((res) => this.setState({ todos: res.data.data }))
       .catch((err) => this.setState({ error: err.message }));
   }
-
+  
   addTask = async (e, task) => {
     e.preventDefault();
     const newTask = { name: task };
     try {
       const res = await axios.post(URL, newTask);
       this.setState({
-        todos: [...this.state.todos, res.data],
+        todos: [...this.state.todos, res.data.data],
       });
     } catch (err) {
       this.setState({ error: err.message });
